@@ -3,10 +3,19 @@ import Survivor from '../models/Survivor';
 
 const router = express.Router();
 
-// Get all survivors
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const survivors = await Survivor.find()
+    const survivors = await Survivor.find(); // sin populate
+    res.json(survivors);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error fetching survivors' });
+  }
+});
+
+router.get('/:id', async (req: Request, res: Response) => {
+  try {
+    const survivor = await Survivor.findById(req.params.id)
       .populate({
         path: 'gameweeks',
         populate: {
@@ -18,10 +27,14 @@ router.get('/', async (req: Request, res: Response) => {
         },
       });
 
-    res.json(survivors);
+    if (!survivor) {
+      return res.status(404).json({ error: 'Survivor not found' });
+    }
+
+    res.json(survivor);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error fetching survivors' });
+    res.status(500).json({ error: 'Error fetching survivor details' });
   }
 });
 
