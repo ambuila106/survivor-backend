@@ -4,7 +4,7 @@ import { IGambleSurvivor } from '../models/GambleSurvivor';
 export interface IPredictionSurvivor extends Document {
   gambleId: IGambleSurvivor['_id'];
   matchId: mongoose.Types.ObjectId;
-  teamId: mongoose.Types.ObjectId;
+  teamId: string | mongoose.Types.ObjectId;
   gameweekId: mongoose.Types.ObjectId;
   result: 'pending' | 'success' | 'fail';
 }

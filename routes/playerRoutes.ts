@@ -15,8 +15,9 @@ router.post('/', async (req: Request, res: Response) => {
     const savedPlayer = await newPlayer.save();
 
     res.status(201).json(savedPlayer);
-  } catch (error) {
-    console.error('Error creating player:', error);
+  } catch (err) {
+    const error = err as Error;
+    console.error('Error creating player:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -25,8 +26,9 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const players = await Player.find();
     res.json(players);
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    const error = err as Error;
+    console.error(error.message);
     res.status(500).json({ error: 'Error fetching players' });
   }
 });

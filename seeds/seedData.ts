@@ -118,8 +118,9 @@ const seedSurvivors = async () => {
 
     await Survivor.insertMany(sampleSurvivors);
     console.log('✅ Survivors seeded successfully');
-  } catch (error) {
-    console.error('❌ Error seeding survivors:', error);
+  } catch (err) {
+    const error = err as Error;
+    console.error('❌ Error seeding survivors:', error.message);
   }
 };
 
