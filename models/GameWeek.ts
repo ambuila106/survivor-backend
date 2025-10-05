@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { IMatch } from './Match';
+import { IMatch } from '../models/Match';
 
 export interface IGameweek extends Document {
   number: number;

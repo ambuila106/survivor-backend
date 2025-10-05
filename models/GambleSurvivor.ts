@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { ISurvivor } from './Survivor';
-import { IPlayer } from './Player';
+import { ISurvivor } from '../models/Survivor';
+import { IPlayer } from '../models/Player';
 
 export interface IGambleSurvivor extends Document {
   survivorId: ISurvivor['_id'];

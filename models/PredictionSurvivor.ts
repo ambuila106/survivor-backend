@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { IGambleSurvivor } from './GambleSurvivor';
+import { IGambleSurvivor } from '../models/GambleSurvivor';
 
 export interface IPredictionSurvivor extends Document {
   gambleId: IGambleSurvivor['_id'];

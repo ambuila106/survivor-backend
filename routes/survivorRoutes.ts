@@ -15,7 +15,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 // Join survivor
 router.post('/join/:id', async (req: Request, res: Response) => {
-//  YOUR CODE HERE
+  res.json({ message: 'Join survivor endpoint - YOUR CODE HERE' });
 });
 
 // Choose team

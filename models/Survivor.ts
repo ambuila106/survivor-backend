@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { IGameweek } from './Gameweek';
+import { IGameweek } from '../models/GameWeek';
 
 export interface ISurvivor extends Document {
   name: string;

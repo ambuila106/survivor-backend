@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { ITeam } from './Team';
+import { ITeam } from '../models/Team';
 
 export interface IMatch extends Document {
   matchId: string;
