@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import survivorRoutes from './routes/survivorRoutes';
+import playerRoutes from './routes/playerRoutes';
 import seedSurvivors from './seeds/seedData';
 
 dotenv.config();
@@ -24,6 +25,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/survivor')
 
 // Rutas
 app.use('/api/survivor', survivorRoutes);
+app.use('/api/players', playerRoutes);
 
 const PORT = process.env.PORT || 4300;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
