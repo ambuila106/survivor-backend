@@ -1,18 +1,17 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { IGameweek } from '../models/GameWeek';
 
 export interface ISurvivor extends Document {
   name: string;
-  gameweeks: IGameweek[];
   startDate: Date;
   lives: number;
+  gameweeks: mongoose.Types.ObjectId[];
 }
 
 const SurvivorSchema = new Schema<ISurvivor>({
   name: { type: String, required: true },
-  gameweeks: { type: [Object], default: [] },
   startDate: { type: Date, required: true },
   lives: { type: Number, default: 3 },
+  gameweeks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Gameweek' }],
 });
 
 export default mongoose.model<ISurvivor>('Survivor', SurvivorSchema);

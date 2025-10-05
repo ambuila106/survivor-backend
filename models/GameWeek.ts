@@ -1,5 +1,4 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { IMatch } from '../models/Match';
 
 export interface IGameweek extends Document {
   number: number;
@@ -7,7 +6,7 @@ export interface IGameweek extends Document {
   endDate: Date;
   status: 'pending' | 'active' | 'finished';
   isActive: boolean;
-  matches: IMatch[];
+  matches: mongoose.Types.ObjectId[];
 }
 
 const GameweekSchema = new Schema<IGameweek>({
@@ -20,7 +19,7 @@ const GameweekSchema = new Schema<IGameweek>({
     default: 'pending',
   },
   isActive: { type: Boolean, default: false },
-  matches: { type: [Object], default: [] },
+  matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Match' }],
 });
 
 export default mongoose.model<IGameweek>('Gameweek', GameweekSchema);

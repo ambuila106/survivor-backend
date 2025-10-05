@@ -6,9 +6,21 @@ const router = express.Router();
 // Get all survivors
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const survivors = await Survivor.find();
+    const survivors = await Survivor.find()
+      .populate({
+        path: 'gameweeks',
+        populate: {
+          path: 'matches',
+          populate: [
+            { path: 'home', model: 'Team' },
+            { path: 'visitor', model: 'Team' },
+          ],
+        },
+      });
+
     res.json(survivors);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Error fetching survivors' });
   }
 });
