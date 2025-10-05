@@ -69,24 +69,24 @@ const seedSurvivors = async () => {
     const gameweeksData = [
       {
         number: 1,
-        startDate: new Date('2025-01-15'),
-        endDate: new Date('2025-01-22'),
+        startDate: new Date('2025-10-15'),
+        endDate: new Date('2025-10-22'),
         status: 'active',
         isActive: true,
         matches: matchDocs.slice(0, 3).map((m) => m._id),
       },
       {
         number: 1,
-        startDate: new Date('2025-02-01'),
-        endDate: new Date('2025-02-08'),
+        startDate: new Date('2025-11-01'),
+        endDate: new Date('2025-11-08'),
         status: 'pending',
         isActive: false,
         matches: matchDocs.slice(3, 6).map((m) => m._id),
       },
       {
         number: 1,
-        startDate: new Date('2025-03-01'),
-        endDate: new Date('2025-03-10'),
+        startDate: new Date('2025-12-01'),
+        endDate: new Date('2025-12-10'),
         status: 'pending',
         isActive: false,
         matches: matchDocs.slice(6, 9).map((m) => m._id),
@@ -98,19 +98,19 @@ const seedSurvivors = async () => {
     const sampleSurvivors = [
       {
         name: 'Liga Premier 2025',
-        startDate: new Date('2025-01-15'),
+        startDate: new Date('2025-10-15'),
         lives: 3,
         gameweeks: [gameweekDocs[0]._id],
       },
       {
         name: 'La Liga Survivor',
-        startDate: new Date('2025-02-01'),
+        startDate: new Date('2025-11-01'),
         lives: 3,
         gameweeks: [gameweekDocs[1]._id],
       },
       {
         name: 'Champions League Knockout',
-        startDate: new Date('2025-03-01'),
+        startDate: new Date('2025-12-01'),
         lives: 3,
         gameweeks: [gameweekDocs[2]._id],
       },

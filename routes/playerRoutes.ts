@@ -21,4 +21,14 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
+router.get('/', async (req: Request, res: Response) => {
+  try {
+    const players = await Player.find();
+    res.json(players);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error fetching players' });
+  }
+});
+
 export default router;
