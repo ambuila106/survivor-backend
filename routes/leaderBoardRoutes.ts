@@ -30,7 +30,7 @@ router.get('/:survivorId', async (req: Request, res: Response) => {
       joinedAt: g.joinedAt,
     }));
 
-    res.json({
+    res.status(200).json({
       survivor: survivor.name,
       leaderboard: formatted,
     });

@@ -6,7 +6,7 @@ const service = new SurvivorService();
 export const getAllSurvivors = async (req: Request, res: Response) => {
   try {
     const data = await service.getAllSurvivors();
-    res.json(data);
+    res.status(200).json(data);
   } catch (err) {
     const error = err as Error;
     res.status(500).json({ error: error.message });
@@ -16,10 +16,14 @@ export const getAllSurvivors = async (req: Request, res: Response) => {
 export const getSurvivorById = async (req: Request, res: Response) => {
   try {
     const survivor = await service.getSurvivorById(req.params.id);
-    res.json(survivor);
+    res.status(200).json(survivor);
   } catch (err) {
     const error = err as Error;
-    res.status(404).json({ error: error.message });
+    if (error.message === 'Survivor not found') {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
   }
 };
 
