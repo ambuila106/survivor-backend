@@ -12,6 +12,7 @@ const seedSurvivors = async () => {
       return;
     }
 
+    // 1️⃣ Teams base
     const teamsData = [
       { name: 'Manchester United', flag: '🏴' },
       { name: 'Liverpool', flag: '🏴' },
@@ -36,6 +37,7 @@ const seedSurvivors = async () => {
     const existingTeams = await Team.find();
     const existingNames = existingTeams.map((t) => t.name);
     const newTeams = teamsData.filter((t) => !existingNames.includes(t.name));
+
     if (newTeams.length > 0) {
       await Team.insertMany(newTeams);
       console.log(`✅ Created ${newTeams.length} new teams`);
@@ -44,80 +46,105 @@ const seedSurvivors = async () => {
     const allTeams = await Team.find();
     const getTeam = (name: string) => allTeams.find((t) => t.name === name)?._id;
 
-    const matchesData = [
+    // 2️⃣ Matches por GameWeek (sin repetir equipos)
+    const week1Matches = [
       { matchId: '1', home: 'Manchester United', visitor: 'Liverpool' },
       { matchId: '2', home: 'Arsenal', visitor: 'Chelsea' },
       { matchId: '3', home: 'Manchester City', visitor: 'Tottenham' },
+    ];
+    const week2Matches = [
       { matchId: '4', home: 'Real Madrid', visitor: 'Barcelona' },
       { matchId: '5', home: 'Atletico Madrid', visitor: 'Sevilla' },
       { matchId: '6', home: 'Valencia', visitor: 'Villarreal' },
+    ];
+    const week3Matches = [
       { matchId: '7', home: 'PSG', visitor: 'Bayern Munich' },
       { matchId: '8', home: 'AC Milan', visitor: 'Inter Milan' },
       { matchId: '9', home: 'Porto', visitor: 'Benfica' },
     ];
-
-    const matchDocs = await Promise.all(
-      matchesData.map((m) =>
-        Match.create({
-          matchId: m.matchId,
-          home: getTeam(m.home),
-          visitor: getTeam(m.visitor),
-        })
-      )
-    );
-
-    const gameweeksData = [
-      {
-        number: 1,
-        startDate: new Date('2025-10-15'),
-        endDate: new Date('2025-10-22'),
-        status: 'active',
-        isActive: true,
-        matches: matchDocs.slice(0, 3).map((m) => m._id),
-      },
-      {
-        number: 1,
-        startDate: new Date('2025-11-01'),
-        endDate: new Date('2025-11-08'),
-        status: 'pending',
-        isActive: false,
-        matches: matchDocs.slice(3, 6).map((m) => m._id),
-      },
-      {
-        number: 1,
-        startDate: new Date('2025-12-01'),
-        endDate: new Date('2025-12-10'),
-        status: 'pending',
-        isActive: false,
-        matches: matchDocs.slice(6, 9).map((m) => m._id),
-      },
+    const week4Matches = [
+      { matchId: '10', home: 'Chelsea', visitor: 'Manchester City' },
+      { matchId: '11', home: 'Liverpool', visitor: 'Arsenal' },
+      { matchId: '12', home: 'Tottenham', visitor: 'Manchester United' },
     ];
 
-    const gameweekDocs = await Gameweek.insertMany(gameweeksData);
+    const createMatchDocs = async (matches: any[]) =>
+      Promise.all(
+        matches.map((m) =>
+          Match.create({
+            matchId: m.matchId,
+            home: getTeam(m.home),
+            visitor: getTeam(m.visitor),
+          })
+        )
+      );
 
+    const matchWeek1 = await createMatchDocs(week1Matches);
+    const matchWeek2 = await createMatchDocs(week2Matches);
+    const matchWeek3 = await createMatchDocs(week3Matches);
+    const matchWeek4 = await createMatchDocs(week4Matches);
+
+    // 3️⃣ Crear GameWeeks estáticos
+    const gameweek1 = await Gameweek.create({
+      number: 1,
+      startDate: new Date('2025-10-15'),
+      endDate: new Date('2025-10-22'),
+      status: 'active',
+      isActive: true,
+      matches: matchWeek1.map((m) => m._id),
+    });
+
+    const gameweek2 = await Gameweek.create({
+      number: 2,
+      startDate: new Date('2025-10-23'),
+      endDate: new Date('2025-10-30'),
+      status: 'pending',
+      isActive: false,
+      matches: matchWeek2.map((m) => m._id),
+    });
+
+    const gameweek3 = await Gameweek.create({
+      number: 3,
+      startDate: new Date('2025-11-01'),
+      endDate: new Date('2025-11-08'),
+      status: 'pending',
+      isActive: false,
+      matches: matchWeek3.map((m) => m._id),
+    });
+
+    const gameweek4 = await Gameweek.create({
+      number: 4,
+      startDate: new Date('2025-11-09'),
+      endDate: new Date('2025-11-16'),
+      status: 'pending',
+      isActive: false,
+      matches: matchWeek4.map((m) => m._id),
+    });
+
+    // 4️⃣ Survivors con 4 GameWeeks
     const sampleSurvivors = [
       {
         name: 'Liga Premier 2025',
         startDate: new Date('2025-10-15'),
         lives: 3,
-        gameweeks: [gameweekDocs[0]._id],
+        gameweeks: [gameweek1._id, gameweek2._id, gameweek3._id, gameweek4._id],
       },
       {
         name: 'La Liga Survivor',
-        startDate: new Date('2025-11-01'),
+        startDate: new Date('2025-10-15'),
         lives: 3,
-        gameweeks: [gameweekDocs[1]._id],
+        gameweeks: [gameweek1._id, gameweek2._id, gameweek3._id, gameweek4._id],
       },
       {
         name: 'Champions League Knockout',
-        startDate: new Date('2025-12-01'),
+        startDate: new Date('2025-10-15'),
         lives: 3,
-        gameweeks: [gameweekDocs[2]._id],
+        gameweeks: [gameweek1._id, gameweek2._id, gameweek3._id, gameweek4._id],
       },
     ];
 
     await Survivor.insertMany(sampleSurvivors);
-    console.log('✅ Survivors seeded successfully');
+    console.log('✅ Survivors seeded successfully with 4 fixed gameweeks.');
   } catch (err) {
     const error = err as Error;
     console.error('❌ Error seeding survivors:', error.message);
