@@ -64,7 +64,7 @@ El proyecto sigue una **arquitectura por capas (Layered Architecture)** con sepa
 ### 1. **Repository Pattern**
 - **Ubicación**: [`repositories/`](repositories/)
 - **Propósito**: Abstrae el acceso a la base de datos y centraliza las consultas
-- **Ejemplo**: [`SurvivorRepository`](repositories/survivorRepository.ts:8) encapsula todas las operaciones de base de datos relacionadas con Survivor
+- **Ejemplo**: [`SurvivorRepository`](repositories/survivorRepository.ts) encapsula todas las operaciones de base de datos relacionadas con Survivor
 
 
 ## 🗄️ Modelos de Datos
