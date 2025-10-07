@@ -15,7 +15,7 @@ API backend para el juego Survivor desarrollado con Node.js, TypeScript, Express
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <url-del-repositorio>
+   git clone [<repositorio>](https://github.com/ambuila106/survivor-backend.git)
    cd backend
    ```
 
