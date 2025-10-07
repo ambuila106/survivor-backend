@@ -4,9 +4,6 @@ API backend para el juego Survivor desarrollado con Node.js, TypeScript, Express
 
 ## 📋 Requisitos Previos
 
-- **Node.js** (versión 18 o superior)
-- **npm** (incluido con Node.js)
-- **MongoDB** (versión 7.0 o superior)
 - **Docker** y **Docker Compose** (opcional, para ejecución con contenedores)
 
 ## 🚀 Instrucciones de Ejecución
