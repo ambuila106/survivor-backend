@@ -5,6 +5,7 @@ export interface ISurvivor extends Document {
   startDate: Date;
   lives: number;
   gameweeks: mongoose.Types.ObjectId[];
+  pot?: number;
 }
 
 const SurvivorSchema = new Schema<ISurvivor>({

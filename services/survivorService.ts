@@ -1,4 +1,7 @@
 import SurvivorRepository from '../repositories/survivorRepository';
+import Survivor from '../models/Survivor';
+import GambleSurvivor from '../models/GambleSurvivor';
+import Player from '../models/Player';
 
 export default class SurvivorService {
   private repo = new SurvivorRepository();
@@ -54,5 +57,42 @@ export default class SurvivorService {
     prediction.teamId = teamId;
     await this.repo.updatePrediction(prediction, teamId);
     return prediction;
+  }
+
+  async getPlayerSurvivorData(survivorId: string, playerId: string) {
+    const survivor = await Survivor.findById(survivorId);
+    if (!survivor) throw new Error('Survivor not found');
+
+    const gamble = await GambleSurvivor.findOne({ survivorId, playerId });
+    if (!gamble) throw new Error('Player not found in this survivor');
+
+    const player = await Player.findById(playerId);
+    if (!player) throw new Error('Player not found');
+
+    // 🧮 Obtener todos los jugadores de este Survivor para el leaderboard
+    const allGambles = await GambleSurvivor.find({ survivorId }).sort({
+      isEliminated: 1,
+      lives: -1,
+    });
+
+    const totalPlayers = allGambles.length;
+    const position = allGambles.findIndex(
+      (g) => g.playerId.toString() === playerId
+    ) + 1;
+
+    // 🧾 Formato final
+    return {
+      survivor: survivor.name,
+      player: {
+        name: player.name,
+        lives: gamble.lives,
+        totalLives: survivor.lives ?? 5,
+        isEliminated: gamble.isEliminated,
+        position,
+        totalPlayers,
+        pot: survivor.pot ?? 0,
+        survivors: allGambles.filter((g) => !g.isEliminated).length,
+      },
+    };
   }
 }

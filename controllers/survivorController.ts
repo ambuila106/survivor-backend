@@ -48,3 +48,14 @@ export const pickTeam = async (req: Request, res: Response) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+export const getPlayerSurvivorData = async (req: Request, res: Response) => {
+  try {
+    const { id, playerId } = req.params;
+    const data = await service.getPlayerSurvivorData(id, playerId);
+    res.status(200).json(data);
+  } catch (err) {
+    const error = err as Error;
+    res.status(500).json({ error: error.message });
+  }
+};
