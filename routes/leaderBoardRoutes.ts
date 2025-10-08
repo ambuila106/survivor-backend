@@ -19,8 +19,8 @@ router.get('/:survivorId', async (req: Request, res: Response) => {
     }
 
     const players = await GambleSurvivor.find({ survivorId })
-      .populate('playerId', 'name') // solo el nombre del jugador
-      .sort({ isEliminated: 1, lives: -1 }); // vivos primero, más vidas arriba
+      .populate('playerId', 'name')
+      .sort({ isEliminated: 1, lives: -1 });
 
     const formatted = players.map((g, index) => ({
       rank: index + 1,

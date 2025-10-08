@@ -69,7 +69,6 @@ export default class SurvivorService {
     const player = await Player.findById(playerId);
     if (!player) throw new Error('Player not found');
 
-    // 🧮 Obtener todos los jugadores de este Survivor para el leaderboard
     const allGambles = await GambleSurvivor.find({ survivorId }).sort({
       isEliminated: 1,
       lives: -1,
@@ -80,7 +79,6 @@ export default class SurvivorService {
       (g) => g.playerId.toString() === playerId
     ) + 1;
 
-    // 🧾 Formato final
     return {
       survivor: survivor.name,
       player: {

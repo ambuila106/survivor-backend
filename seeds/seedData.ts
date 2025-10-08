@@ -12,7 +12,6 @@ const seedSurvivors = async () => {
       return;
     }
 
-    // 1️⃣ Teams base
     const teamsData = [
       { name: 'Manchester United', flag: '🏴' },
       { name: 'Liverpool', flag: '🏴' },
@@ -46,7 +45,6 @@ const seedSurvivors = async () => {
     const allTeams = await Team.find();
     const getTeam = (name: string) => allTeams.find((t) => t.name === name)?._id;
 
-    // 2️⃣ Matches por GameWeek (sin repetir equipos)
     const week1Matches = [
       { matchId: '1', home: 'Manchester United', visitor: 'Liverpool' },
       { matchId: '2', home: 'Arsenal', visitor: 'Chelsea' },
@@ -84,7 +82,6 @@ const seedSurvivors = async () => {
     const matchWeek3 = await createMatchDocs(week3Matches);
     const matchWeek4 = await createMatchDocs(week4Matches);
 
-    // 3️⃣ Crear GameWeeks estáticos
     const gameweek1 = await Gameweek.create({
       number: 1,
       startDate: new Date('2025-10-15'),
@@ -121,7 +118,6 @@ const seedSurvivors = async () => {
       matches: matchWeek4.map((m) => m._id),
     });
 
-    // 4️⃣ Survivors con 4 GameWeeks
     const sampleSurvivors = [
       {
         name: 'Liga Premier 2025',
