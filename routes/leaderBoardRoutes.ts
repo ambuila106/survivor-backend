@@ -5,10 +5,6 @@ import Survivor from '../models/Survivor';
 
 const router = express.Router();
 
-/**
- * 📊 Obtener tabla de jugadores (vidas y estado) de un Survivor
- * GET /api/leaderboard/:survivorId
- */
 router.get('/:survivorId', async (req: Request, res: Response) => {
   try {
     const { survivorId } = req.params;
