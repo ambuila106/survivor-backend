@@ -1,10 +1,11 @@
 import SurvivorRepository from '../repositories/survivorRepository';
-import Survivor from '../models/Survivor';
+import PlayerRepository from '../repositories/playerRepository';
 import GambleSurvivor from '../models/GambleSurvivor';
-import Player from '../models/Player';
+
 
 export default class SurvivorService {
   private repo = new SurvivorRepository();
+  private playerRepo = new PlayerRepository();
 
   async getAllSurvivors() {
     return this.repo.findAll();
@@ -20,7 +21,7 @@ export default class SurvivorService {
     const survivor = await this.repo.findById(survivorId);
     if (!survivor) throw new Error('Survivor not found');
 
-    const player = await this.repo.findPlayer(playerId);
+    const player = await this.playerRepo.findById(playerId);
     if (!player) throw new Error('Player not found');
 
     const existingGamble = await this.repo.findGamble(survivorId, playerId);
@@ -60,13 +61,13 @@ export default class SurvivorService {
   }
 
   async getPlayerSurvivorData(survivorId: string, playerId: string) {
-    const survivor = await Survivor.findById(survivorId);
+    const survivor = await this.repo.findById(survivorId);
     if (!survivor) throw new Error('Survivor not found');
 
     const gamble = await GambleSurvivor.findOne({ survivorId, playerId });
     if (!gamble) throw new Error('Player not found in this survivor');
 
-    const player = await Player.findById(playerId);
+    const player = await this.playerRepo.findById(playerId);
     if (!player) throw new Error('Player not found');
 
     const allGambles = await GambleSurvivor.find({ survivorId }).sort({
