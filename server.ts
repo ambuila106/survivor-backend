@@ -25,9 +25,7 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/survivor')
 
 app.use('/api/survivor', survivorRoutes);
 app.use('/api/players', playerRoutes);
-
 app.use('/api/admin', adminRoutes);
-
 app.use('/api/leaderboard', leaderboardRoutes);
 
 
